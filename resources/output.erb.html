@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html charset="UTF-8">
+
+<head>
+  <meta charset="UTF-8">
+  <title>日本語の言葉</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <link href="main.css" rel="stylesheet" type="text/css" media="all">
+</head>
+
+<body>
+  <div id="app">
+    <h1>
+      <%= @title %>
+    </h1>
+    <table class="fold-table">
+      <thead>
+        <tr>
+          <th>Current position</th>
+          <th>Frequency position</th>
+          <th>Lexeme</th>
+          <th>Standard orthography (in newspapers)</th>
+          <th>Standard reading (hiragana writing)</th>
+          <th>Type</th>
+        </tr>
+      </thead>
+      <tr class="view" v-for="vocab in show_vocabularies">
+        <td>{{vocab.position}}</td>
+        <td>{{vocab.frequency_position}}</td>
+        <td><a :href="'https://jisho.org/word/' + vocab.lexeme">{{vocab.lexeme}}</a></td>
+        <td>{{vocab.standard_orthography}}</td>
+        <td>{{vocab.hiragana_reading}}</td>
+        <td>{{vocab.type}}</td>
+      </tr>
+    </table>
+  </div>
+  <script type="text/javascript">
+    vm = new Vue({
+      el: '#app',
+      data: {
+        actual_position: 0,
+        max_position: <%= vocabularies.size %>,
+        vocabularies: [
+          <% i = 0 %>
+          <% for vocab in @vocabularies %> {
+            position: <%= i + 1 %>,
+            frequency_position: <%= vocab.frequency_position %>,
+            lexeme: '<%= vocab.lexeme %>',
+            standard_orthography: '<%= vocab.standard_orthography %>',
+            hiragana_reading: '<%= vocab.hiragana_reading %>',
+            type: '<%= vocab.type %>'
+          }
+          <%= ',' unless vocab == @vocabularies.last %>
+          <% i = i + 1 %>
+          <% end %>
+        ],
+        show_vocabularies: new Array()
+      },
+      methods: {
+        add_words() {
+          var self = this
+          if (this.actual_position < this.max_position) {
+            this.vocabularies.slice(this.actual_position, this.actual_position + 100).forEach(function(e) {
+              self.show_vocabularies.push(e)
+            })
+            this.actual_position += 100
+          }
+        }
+      }
+    })
+
+    window.onscroll = () => {
+      let bottomOfWindow = window.scrollY + window.innerHeight === document.documentElement.offsetHeight
+      if (bottomOfWindow) {
+        vm.add_words()
+      }
+    }
+    vm.add_words()
+  </script>
+</body>
+
+</html>
