@@ -32,3 +32,5 @@ Verify quality of code
 Run the program. Parameter *limit* is an integer. This is the maximum words to put in each HTML file.
 
     ruby ./lib/main.rb :limit
+## Result
+You can see the last version in [here](https://quentin-moquay.github.io/japanese-words-frequency/)
