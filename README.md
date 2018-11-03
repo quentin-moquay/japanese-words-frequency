@@ -28,6 +28,13 @@ Verify quality of code
 
     rake rubocop
 
+Deploy to github pages
+
+    rake release
+    git add ./docs/*
+    git commit -m "message"
+    git push origin master
+
 ## Usage (without rake)
 Run the program. Parameter *limit* is an integer. This is the maximum words to put in each HTML file.
 
