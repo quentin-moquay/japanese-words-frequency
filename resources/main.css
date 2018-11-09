@@ -1,5 +1,7 @@
+@import url(//fonts.googleapis.com/earlyaccess/notosansjapanese.css); 
+
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-family: 'Noto Sans Japanese', sans-serif; 
   color: #fff;
   line-height: 1.25;
   background-color: #141d26;
